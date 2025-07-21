@@ -33,3 +33,7 @@ jobs:
             core.setOutput('id_token', token);
       - name: Print OIDC Token
         run: echo "${{ steps.token.outputs.id_token }}"
+      - name: Debug OIDC Claims
+        uses: github/actions-oidc-debugger@main
+        with:
+          audience: '${{ github.server_url }}/${{ github.repository_owner }}'
