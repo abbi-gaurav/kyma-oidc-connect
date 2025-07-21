@@ -33,7 +33,7 @@ jobs:
         with:
           script: |
             const owner = process.env.GITHUB_REPOSITORY_OWNER;
-            const token = await core.getIDToken({subject: owner, audience: process.env.CLUSTER_ID});
+            const token = await core.getIDToken(owner);
             core.setOutput('id_token', token);
       - name: Access Kyma runtime
         env:
