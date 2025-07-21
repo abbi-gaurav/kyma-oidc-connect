@@ -35,12 +35,6 @@ jobs:
             const owner = process.env.GITHUB_REPOSITORY_OWNER;
             const token = await core.getIDToken({subject: owner, audience: process.env.CLUSTER_ID});
             core.setOutput('id_token', token);
-      - name: Print OIDC Token
-        run: echo "${{ steps.token.outputs.id_token }}"
-      - name: Debug OIDC Claims
-        uses: github/actions-oidc-debugger@main
-        with:
-          audience: '${{ secrets.CLUSTER_ID }}'
       - name: Access Kyma runtime
         env:
           OIDC_TOKEN: ${{ steps.token.outputs.id_token }}
@@ -64,4 +58,4 @@ jobs:
           
           # Test authentication
           kubectl config view
-          kubectl get namespaces
+          kubectl get pods
