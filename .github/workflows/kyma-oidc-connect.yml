@@ -45,7 +45,7 @@ jobs:
           REQUEST_LOGGER: ${{ secrets.REQUEST_LOGGER }}
         run: |
           # make a curl call
-          curl -X GET -H "Authorization: Bearer $OIDC_TOKEN" https://$REQUEST_LOGGER -v
+          # curl -X GET -H "Authorization: Bearer $OIDC_TOKEN" https://$REQUEST_LOGGER -v
           # Write CA certificate to file
           echo $CA_CERT_STRING | base64 -d > /tmp/ca.crt
           # Set up kubeconfig (replace with your actual cluster details)
