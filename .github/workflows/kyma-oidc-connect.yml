@@ -26,10 +26,12 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
       - uses: actions/github-script@v6
+        name: set token in output
         id: token
         with:
           script: |
-            const token = await core.getIDToken({subject: ${{ github.repository_owner }}});
+            const owner = process.env.GITHUB_REPOSITORY_OWNER;
+            const token = await core.getIDToken({subject: owner});
             core.setOutput('id_token', token);
       - name: Print OIDC Token
         run: echo "${{ steps.token.outputs.id_token }}"
