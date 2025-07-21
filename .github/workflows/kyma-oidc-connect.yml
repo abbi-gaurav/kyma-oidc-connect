@@ -32,8 +32,8 @@ jobs:
           CLUSTER_ID: ${{ secrets.CLUSTER_ID }}
         with:
           script: |
-            const owner = process.env.GITHUB_REPOSITORY_OWNER;
-            const token = await core.getIDToken(owner);
+            const aud = process.env.CLUSTER_ID;
+            const token = await core.getIDToken(aud);
             core.setOutput('id_token', token);
       - name: Access Kyma runtime
         env:
