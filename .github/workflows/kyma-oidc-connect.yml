@@ -28,15 +28,16 @@ jobs:
       - uses: actions/github-script@v6
         name: set token in output
         id: token
+        env:
+          CLUSTER_ID: ${{ secrets.CLUSTER_ID }}
         with:
           script: |
             const owner = process.env.GITHUB_REPOSITORY_OWNER;
-            const audience = `https://github.com/${owner}`;
-            const token = await core.getIDToken({subject: owner, audience: audience});
+            const token = await core.getIDToken({subject: owner, audience: process.env.CLUSTER_ID});
             core.setOutput('id_token', token);
       - name: Print OIDC Token
         run: echo "${{ steps.token.outputs.id_token }}"
       - name: Debug OIDC Claims
         uses: github/actions-oidc-debugger@main
         with:
-          audience: '${{ github.server_url }}/${{ github.repository_owner }}'
+          audience: '${{ secrets.CLUSTER_ID }}'
