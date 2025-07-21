@@ -37,5 +37,3 @@ jobs:
         run: echo "${{ steps.token.outputs.id_token }}"
       - name: Debug OIDC Claims
         uses: github/actions-oidc-debugger@main
-        with:
-          subject: '${{ github.repository_owner }}'
