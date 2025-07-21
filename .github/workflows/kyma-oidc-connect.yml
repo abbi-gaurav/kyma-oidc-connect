@@ -25,11 +25,11 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
-      - name: Request OIDC Token
-        run: echo "${{ steps.token.outputs.id_token }}"
-        id: token
       - uses: actions/github-script@v6
         with:
           script: |
             const token = await core.getIDToken();
             core.setOutput('id_token', token);
+      - name: Request OIDC Token
+        run: echo "${{ steps.token.outputs.id_token }}"
+        id: token
