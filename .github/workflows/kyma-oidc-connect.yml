@@ -41,3 +41,24 @@ jobs:
         uses: github/actions-oidc-debugger@main
         with:
           audience: '${{ secrets.CLUSTER_ID }}'
+      - name: Access Kyma runtime
+        env:
+          OIDC_TOKEN: ${{ steps.token.outputs.id_token }}
+          KUBECONFIG: $HOME/.kube/config
+          CLUSTER_ID: ${{ secrets.CLUSTER_ID }}
+          K8S_API_SERVER: ${{ secrets.K8S_API_SERVER }}
+        run: |
+          # Set up kubeconfig (replace with your actual cluster details)
+          kubectl config set-cluster $CLUSTER_ID \
+            --server=https://$K8S_API_SERVER \
+            --certificate-authority=/path/to/ca.crt
+          kubectl config set-credentials github-oidc-user \
+            --token="$OIDC_TOKEN"
+          kubectl config set-context $CLUSTER_ID \
+            --cluster=$CLUSTER_ID \
+            --user=github-oidc-user
+          kubectl config use-context $CLUSTER_ID
+          
+          # Test authentication
+          kubectl config view
+          kubectl get namespaces
