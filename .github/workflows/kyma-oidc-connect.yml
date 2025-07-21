@@ -29,11 +29,11 @@ jobs:
         id: token
         with:
           script: |
-            const token = await core.getIDToken();
+            const token = await core.getIDToken({subject: ${{ github.repository_owner }}});
             core.setOutput('id_token', token);
       - name: Print OIDC Token
         run: echo "${{ steps.token.outputs.id_token }}"
       - name: Debug OIDC Claims
         uses: github/actions-oidc-debugger@main
         with:
-          audience: '${{ github.server_url }}/${{ github.repository_owner }}'
+          subject: '${{ github.repository_owner }}'
